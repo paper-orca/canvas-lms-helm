@@ -1,0 +1,26 @@
+fullnameOverride: canvas-lms
+
+# Dependency config
+postgresql:
+  enabled: true
+  fullnameOverride: postgresql
+  auth:
+    postgresPassword: password
+
+redis:
+  enabled: true
+  fullnameOverride: redis
+
+# App config
+config:
+  init: true
+  security:
+    encryptionKey: "openssl rand -base64 36 | cut -c1-48"
+  setup:
+    admin:
+      email: me@example.com
+      password: password
+    accountName: Acme Corp.
+  database:
+    username: postgres
+    password: password

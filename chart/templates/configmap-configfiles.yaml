@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Chart.Name }}-config-files
+data:
+{{- range $filename, $content := .Values.configFiles }}
+  {{ $filename }}: |
+{{ $content | indent 4 }}
+{{- end }}

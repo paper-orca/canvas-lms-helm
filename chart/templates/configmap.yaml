@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Chart.Name }}
+data:
+  {{- with .Values.config }}
+  RAILS_HOST_WITH_PORT: {{ .host }}
+  {{- with .setup }}
+  CANVAS_LMS_ACCOUNT_NAME: {{ .accountName }}
+  CANVAS_LMS_STATS_COLLECTION: {{ .statsCollection }}
+  {{- end }}
+  {{- with .database }}
+  DATABASE_HOST: {{ .host | quote }}
+  DATABASE_NAME: {{ .name | quote }}
+  DATABASE_USERNAME: {{ .username | quote }}
+  {{- end }}
+  {{- with .redis }}
+  REDIS_URL: {{ .url | quote }}
+  {{- end }}
+  {{- end }}

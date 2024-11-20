@@ -1,0 +1,6 @@
+apiVersion: ctlptl.dev/v1alpha1
+kind: Cluster
+product: minikube
+name: canvaslms-dev
+minikube:
+  containerRuntime: docker

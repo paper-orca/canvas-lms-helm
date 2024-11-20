@@ -1,0 +1,140 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "chart.fullname" . }}
+  labels:
+    {{- include "chart.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "chart.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "chart.labels" . | nindent 8 }}
+        {{- with .Values.podLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "chart.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      volumes:
+        - name: config-files
+          configMap:
+            name: {{ .Chart.Name }}-config-files
+        - name: config
+          emptyDir: {}
+        - name: files
+          persistentVolumeClaim:
+            claimName: {{ .Chart.Name }}-files
+        - name: log
+          persistentVolumeClaim:
+            claimName: {{ .Chart.Name }}-log
+      {{- with .Values.volumes }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      initContainers:
+        - name: copy-config-files
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          command:
+          - sh
+          - -c
+          - |
+            # Existing files
+            printf "Existing: "
+            files_list=""
+            separator=""
+
+            for file in $(ls -d /usr/src/app/config/*/ /usr/src/app/config/*.yml /usr/src/app/config/*.rb); do
+              filename=$(basename "$file")
+              files_list="${files_list}${separator}${filename}"
+              separator=", "
+              cp -r /usr/src/app/config/$filename /usr/src/app/tmp/config/$filename
+            done
+
+            printf "%s.\n" "$files_list"
+
+            # Custom files from configmap
+            printf "Custom: "
+            files_list=""
+            separator=""
+
+            for file in $(ls /usr/src/app/tmp/configfiles); do
+              filename=$(basename "$file")
+              decoded_path=$(echo $filename | sed 's|__|/|g')
+              files_list="${files_list}${separator}${decoded_path}"
+              separator=", "
+              target="/usr/src/app/tmp/config/$decoded_path"
+              cp /usr/src/app/tmp/configfiles/$filename $target
+            done
+
+            printf "%s.\n" "$files_list"
+          volumeMounts:
+          - name: config
+            mountPath: /usr/src/app/tmp/config
+          - name: config-files
+            mountPath: /usr/src/app/tmp/configfiles
+      {{- if and (hasKey .Values "initContainers") .Values.config.init }}
+      {{- range $name, $container := .Values.initContainers }}
+        - name: {{ $name }}
+          {{- with $.Values.image }}
+          image: "{{ .repository }}:{{ .tag | default $.Chart.AppVersion }}"
+          imagePullPolicy: {{ .pullPolicy }}
+          {{- end}}
+          command: {{ $container.command | toYaml | nindent 12 }}
+          volumeMounts:
+            - name: config
+              mountPath: /usr/src/app/config
+            - name: files
+              mountPath: /usr/src/app/tmp/files
+            - name: log
+              mountPath: /usr/src/app/log
+          envFrom:
+            - configMapRef:
+                name: {{ $.Chart.Name }}
+            - secretRef:
+                name: {{ $.Chart.Name }}
+      {{- end }}
+      {{- end }}
+      containers:
+        - name: web
+          {{ include "canvas.container.common" . | nindent 10 }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.service.port }}
+              protocol: TCP
+          livenessProbe:
+            {{- toYaml .Values.livenessProbe | nindent 12 }}
+          readinessProbe:
+            {{- toYaml .Values.readinessProbe | nindent 12 }}
+        - name: job
+          {{ include "canvas.container.common" . | nindent 10 }}
+          command:
+            - bundle
+            - exec
+            - script/delayed_job
+            - run
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

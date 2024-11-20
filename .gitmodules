@@ -1,0 +1,6 @@
+[submodule "canvas-self-hosted"]
+	path = canvas-self-hosted
+	url = https://github.com/instructure/canvas-self-hosted.git
+[submodule "canvas-lms"]
+	path = canvas-lms
+	url = https://github.com/instructure/canvas-lms.git
