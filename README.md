@@ -17,7 +17,7 @@ helm upgrade -i canvas oci://registry-1.docker.io/ulevitsky/canvas-lms
 kubectl port-forward svc/canvas-lms 3000:80
 ```
 
-then try accessing `http://localhost:3000` in your browser. Please be patient because it might take Canvas a while to start.
+then try accessing `http://localhost:3000` in your browser. Please be patient because it might take Canvas a while to pull images, initialise, and start.
 
 Once it's up and running and the log in page is showing, log in as `me@example.com` with `password`.
 
