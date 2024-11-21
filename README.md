@@ -31,6 +31,8 @@ For a complete list of values, run
 helm show values oci://registry-1.docker.io/ulevitsky/canvas-lms
 ```
 
+If your installation is to be internet-facing, you will also need to BYO ingress and configure TLS.
+
 # Local development
 
 The supplied dev configuration, somewhat opnionatedly but mainly for convenience, presumes the use of [Tilt](https://tilt.dev), [ctlptl](https://github.com/tilt-dev/ctlptl), and [minikube](https://minikube.sigs.k8s.io/), and the included ctlptl spec is configured for Docker runtime to take advantage of in-cluster builds, without a local registry.
