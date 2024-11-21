@@ -1,6 +1,6 @@
 apiVersion: v2
 name: canvas-lms
-description: A Helm chart for Kubernetes
+description: Canvas LMS Helm chart
 
 # A chart can be either an 'application' or a 'library' chart.
 #
