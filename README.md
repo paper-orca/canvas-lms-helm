@@ -11,7 +11,7 @@ This is [Canvas LMS](https://github.com/instructure/canvas-lms) as a batteries-i
 
 As is usually the case with K8s, this can run on practically any cluster, local or otherwise.
 
-The supplied dev configuration, somewhat opnionatedly but mainly for convenience, presumed the use of [Tilt](https://tilt.dev), [ctlptl](https://github.com/tilt-dev/ctlptl), and [minikube](https://minikube.sigs.k8s.io/), and the included ctlptl spec is configured for Docker runtime to take advantage of in-cluster builds, without a local registry.
+The supplied dev configuration, somewhat opnionatedly but mainly for convenience, presumes the use of [Tilt](https://tilt.dev), [ctlptl](https://github.com/tilt-dev/ctlptl), and [minikube](https://minikube.sigs.k8s.io/), and the included ctlptl spec is configured for Docker runtime to take advantage of in-cluster builds, without a local registry.
 
 ## Set up
 
