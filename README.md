@@ -17,7 +17,7 @@ The supplied dev configuration, somewhat opnionatedly but mainly for convenience
 
 1. [Install Tilt](https://docs.tilt.dev/).
 2. [Install minikube](https://minikube.sigs.k8s.io/docs/) and all its dependencies.
-3. [Install ctlptl](https://github.com/tilt-dev/ctlptl)
+3. [Install ctlptl](https://github.com/tilt-dev/ctlptl).
 4. Clone this repo.
 5.
 ```
