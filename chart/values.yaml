@@ -2,7 +2,7 @@
 replicaCount: 1
 
 image:
-  repository: cr.urilevitsky.com/canvas-lms
+  repository: ulevitsky/canvas-lms
   pullPolicy: IfNotPresent
   tag: ""
 

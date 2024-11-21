@@ -26,7 +26,7 @@ yaml = helm(
 create_namespace_if_not_exists(namespace)
 
 docker_build(
-    ref="cr.urilevitsky.com/canvas-lms",
+    ref="ulevitsky/canvas-lms",
     dockerfile="./canvas-lms/Dockerfile.production",
     context="./canvas-lms",
     ignore=["./canvas-lms/config"],
