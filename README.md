@@ -1,6 +1,7 @@
 # Canvas LMS Helm chart
 
 ❗ Please note that I make no claims about production-readiness of this; use at your own risk.
+
 ❕ **Trademarks**: all trademarks are owned by the respective companies, and the use of them does not imply any affiliation or endorsement.
 
 This is [Canvas LMS](https://github.com/instructure/canvas-lms) packaged as a batteries-included Helm chart.
