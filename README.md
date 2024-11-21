@@ -34,5 +34,5 @@ If you don't want the included Postgres or Redis, disable them (by setting `posg
 ## Run
 1. In your terminal, `tilt up`.
 2. Open [http://localhost:10350/](http://localhost:10350/) in your browser and watch the status of the build/rollout. Note that the initial build of Canvas LMS image can take quite a while.
-3. Once everythign turned green, you can access Canvas at [http://localhost:3000/](http://localhost:3000/).
+3. Once everything turned green, you can access Canvas at [http://localhost:3000/](http://localhost:3000/).
 4. Look up log in credentials in your `values.override.yaml`.
