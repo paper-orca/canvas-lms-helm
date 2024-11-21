@@ -6,7 +6,7 @@ This is [Canvas LMS](https://github.com/instructure/canvas-lms) packaged as a ba
 
 Inspired by [this repo](https://github.com/instructure/canvas-self-hosted), only for Kubernetes/Helm.
 
-**Trademarks**: all trademarks mentioned in the offering are owned by the respective companies, and the use of them does not imply any affiliation or endorsement.
+**Trademarks**: all trademarks are owned by the respective companies, and the use of them does not imply any affiliation or endorsement.
 
 # Deployment
 [TODO]
