@@ -31,7 +31,7 @@ ctlptl -f ctlptl-cluster-spec.yaml apply
 ```
 
 ## Configure
-Copy `values.example.yaml` into `values.override.yaml`.
+Create file `values.override.yaml`. It can be left empty.
 
 If you don't want the included Postgres or Redis, disable them (by setting `posgres.enabled: false`, `redis.enabled: false` respectively) and update the connection settings to point to your instances.
 

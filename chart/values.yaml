@@ -4,7 +4,7 @@ replicaCount: 1
 image:
   repository: ulevitsky/canvas-lms
   pullPolicy: IfNotPresent
-  tag: ""
+  tag: 2024-12-04.266
 
 # This is for the secretes for pulling an image from a private repository more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
 imagePullSecrets: []
@@ -133,18 +133,18 @@ config:
   init: false
   host: localhost:3000
   security:
-    encryptionKey: ""
+    encryptionKey: sample-encryption-key
   setup:
     admin:
-      email: ""
-      password: ""
-    accountName: ""
+      email: me@example.com
+      password: password
+    accountName: Acme Corp.
     statsCollection: opt_out
   database:
     host: postgresql
     name: canvas
-    username: ""
-    password: ""
+    username: postgres
+    password: password
   redis:
     url: redis://redis-master
   storage:
