@@ -1,6 +1,6 @@
 # Canvas LMS Helm chart
 
-❗ Please note that I make no claims about how production-ready this is. Use at your own risk.
+❗ Please note that I make no claims about production-readiness of this; use at your own risk.
 
 This is [Canvas LMS](https://github.com/instructure/canvas-lms) as a batteries-included Helm chart, inspired by [this repo](https://github.com/instructure/canvas-self-hosted) only for Kubernetes.
 
