@@ -2,10 +2,11 @@
 
 ❗ Please note that I make no claims about production-readiness of this; use at your own risk.
 
-This is [Canvas LMS](https://github.com/instructure/canvas-lms) as a batteries-included Helm chart, inspired by [this repo](https://github.com/instructure/canvas-self-hosted), only for Kubernetes.
+This is [Canvas LMS](https://github.com/instructure/canvas-lms) packaged as a batteries-included Helm chart
 
-# Trademarks
-All trademarks mentioned in the offering are owned by the respective companies, and the use of them does not imply any affiliation or endorsement.
+Inspired by [this repo](https://github.com/instructure/canvas-self-hosted), only for Kubernetes/Helm.
+
+**Trademarks**: all trademarks mentioned in the offering are owned by the respective companies, and the use of them does not imply any affiliation or endorsement.
 
 # Deployment
 [TODO]
