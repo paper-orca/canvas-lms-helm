@@ -10,7 +10,7 @@ image:
 imagePullSecrets: []
 # This is to override the chart name.
 nameOverride: ""
-fullnameOverride: ""
+fullnameOverride: canvas-lms
 
 #This section builds out the service account more information can be found here: https://kubernetes.io/docs/concepts/security/service-accounts/
 serviceAccount:
@@ -105,10 +105,14 @@ affinity: {}
 
 # Dependency config
 postgresql:
-  enabled: false
+  fullnameOverride: postgresql
+  enabled: true
+  auth:
+    postgresPassword: password
 
 redis:
-  enabled: false
+  fullnameOverride: redis
+  enabled: true
   architecture: standalone
   auth:
     enabled: false
@@ -130,7 +134,7 @@ initContainers:
 
 # App config
 config:
-  init: false
+  init: true
   host: localhost:3000
   security:
     encryptionKey: sample-encryption-key
