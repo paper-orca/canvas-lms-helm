@@ -4,7 +4,7 @@ replicaCount: 1
 image:
   repository: ulevitsky/canvas-lms
   pullPolicy: IfNotPresent
-  tag: 2024-12-04.266
+  tag: ""
 
 # This is for the secretes for pulling an image from a private repository more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
 imagePullSecrets: []
