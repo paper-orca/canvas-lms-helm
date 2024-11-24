@@ -154,6 +154,7 @@ config:
   storage:
     files: 5Gi
     log: 1Gi
+    brandableCss: 50Mi
 
 configFiles:
   cache_store.yml: |

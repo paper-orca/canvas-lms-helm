@@ -36,6 +36,9 @@ spec:
             name: {{ .Chart.Name }}-config-files
         - name: config
           emptyDir: {}
+        - name: brandablecss
+          persistentVolumeClaim:
+            claimName: {{ .Chart.Name }}-brandablecss
         - name: files
           persistentVolumeClaim:
             claimName: {{ .Chart.Name }}-files
@@ -46,8 +49,8 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       initContainers:
-        - name: copy-config-files
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+        - name: copy-configs
+          {{ include "canvas.container.image" . | nindent 10 }}
           command:
           - sh
           - -c
@@ -86,13 +89,20 @@ spec:
             mountPath: /usr/src/app/tmp/config
           - name: config-files
             mountPath: /usr/src/app/tmp/configfiles
+        - name: copy-bradablecss
+          {{ include "canvas.container.image" . | nindent 10 }}
+          command:
+          - sh
+          - -c
+          - |
+            cp -r /usr/src/app/public/dist/brandable_css/* /usr/src/app/tmp/brandable_css && printf "Copied brandable_css."
+          volumeMounts:
+          - name: brandablecss
+            mountPath: /usr/src/app/tmp/brandable_css
       {{- if and (hasKey .Values "initContainers") .Values.config.init }}
       {{- range $name, $container := .Values.initContainers }}
         - name: {{ $name }}
-          {{- with $.Values.image }}
-          image: "{{ .repository }}:{{ .tag | default $.Chart.AppVersion }}"
-          imagePullPolicy: {{ .pullPolicy }}
-          {{- end}}
+          {{ include "canvas.container.image" $ | nindent 10 }}
           command: {{ $container.command | toYaml | nindent 12 }}
           volumeMounts:
             - name: config
