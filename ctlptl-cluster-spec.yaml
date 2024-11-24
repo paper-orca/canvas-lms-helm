@@ -4,3 +4,5 @@ product: minikube
 name: canvaslms-dev
 minikube:
   containerRuntime: docker
+  startFlags:
+    - --cpus=max
