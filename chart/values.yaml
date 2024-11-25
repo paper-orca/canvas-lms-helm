@@ -149,6 +149,16 @@ config:
     name: canvas
     username: postgres
     password: password
+  outgoingMail:
+    smtp:
+      host: smtp.example.com
+      port: 25
+      username: user
+      password: password
+      authentication: "plain" # plain, login, or cram_md5
+    domain: example.com
+    outgoingAddress: canvas@example.com
+    defaultName: Canvas
   redis:
     url: redis://redis-master
   storage:
@@ -182,6 +192,16 @@ configFiles:
     production:
       storage: local
       path_prefix: tmp/files
+  outgoing_mail.yml: |
+    production:
+      address: <%= ENV.fetch("SMTP_HOST") %>
+      port: <%= ENV.fetch("SMTP_PORT") %>
+      user_name: <%= ENV.fetch("SMTP_USERNAME") %>
+      password: <%= ENV.fetch("SMTP_PASSWORD") %>
+      authentication: <%= ENV.fetch("SMTP_AUTHENTICATION") %>
+      domain: <%= ENV.fetch("OUTGOING_MAIL_DOMAIN") %>
+      outgoing_address: <%= ENV.fetch("OUTGOING_MAIL_OUTGOING_ADDRESS") %>
+      default_name: <%= ENV.fetch("OUTGOING_MAIL_DEFAULT_NAME") %>
   redis.yml: |
     production:
       url: <%= ENV.fetch("REDIS_URL") %>

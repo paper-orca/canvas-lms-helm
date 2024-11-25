@@ -3,18 +3,24 @@ kind: ConfigMap
 metadata:
   name: {{ .Chart.Name }}
 data:
-  {{- with .Values.config }}
+{{- with .Values.config }}
   RAILS_HOST_WITH_PORT: {{ .host }}
-  {{- with .setup }}
-  CANVAS_LMS_ACCOUNT_NAME: {{ .accountName }}
-  CANVAS_LMS_STATS_COLLECTION: {{ .statsCollection }}
-  {{- end }}
-  {{- with .database }}
-  DATABASE_HOST: {{ .host | quote }}
-  DATABASE_NAME: {{ .name | quote }}
-  DATABASE_USERNAME: {{ .username | quote }}
-  {{- end }}
-  {{- with .redis }}
-  REDIS_URL: {{ .url | quote }}
-  {{- end }}
-  {{- end }}
+  # Setup
+  CANVAS_LMS_ACCOUNT_NAME: {{ .setup.accountName }}
+  CANVAS_LMS_STATS_COLLECTION: {{ .setup.statsCollection }}
+  # Database
+  DATABASE_HOST: {{ .database.host | quote }}
+  DATABASE_NAME: {{ .database.name | quote }}
+  DATABASE_USERNAME: {{ .database.username | quote }}
+  # Outgoing mail
+  SMTP_HOST: {{ .outgoingMail.smtp.host | quote }}
+  SMTP_PORT: {{ .outgoingMail.smtp.port | quote }}
+  SMTP_USERNAME: {{ .outgoingMail.smtp.username | quote }}
+  SMTP_PASSWORD: {{ .outgoingMail.smtp.password | quote }}
+  SMTP_AUTHENTICATION: {{ .outgoingMail.smtp.authentication | quote }}
+  OUTGOING_MAIL_DOMAIN: {{ .outgoingMail.domain | quote }}
+  OUTGOING_MAIL_OUTGOING_ADDRESS: {{ .outgoingMail.outgoingAddress | quote }}
+  OUTGOING_MAIL_DEFAULT_NAME: {{ .outgoingMail.defaultName | quote }}
+  # Redis
+  REDIS_URL: {{ .redis.url | quote }}
+{{- end }}
