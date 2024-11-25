@@ -89,7 +89,7 @@ spec:
             mountPath: /usr/src/app/tmp/config
           - name: config-files
             mountPath: /usr/src/app/tmp/configfiles
-        - name: copy-bradablecss
+        - name: copy-brandablecss
           {{ include "canvas.container.image" . | nindent 10 }}
           command:
           - sh

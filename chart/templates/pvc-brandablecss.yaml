@@ -5,7 +5,9 @@ metadata:
 spec:
   accessModes:
     - ReadWriteMany
+  {{- with .Values.config.storage.brandableCss }}
   resources:
     requests:
-      storage: {{ .Values.config.storage.brandableCss }}
-  storageClassName: standard
+      storage: {{ .request }}
+  storageClassName: {{ .className }}
+  {{- end }}

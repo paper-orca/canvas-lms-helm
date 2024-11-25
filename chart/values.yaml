@@ -152,9 +152,15 @@ config:
   redis:
     url: redis://redis-master
   storage:
-    files: 5Gi
-    log: 1Gi
-    brandableCss: 50Mi
+    files:
+      request: 5Gi
+      className: standard
+    log:
+      request: 1Gi
+      className: standard
+    brandableCss:
+      request: 50Mi
+      className: standard
 
 configFiles:
   cache_store.yml: |

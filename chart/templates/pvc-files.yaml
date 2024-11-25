@@ -5,7 +5,9 @@ metadata:
 spec:
   accessModes:
     - ReadWriteMany
+  {{- with .Values.config.storage.files }}
   resources:
     requests:
-      storage: {{ .Values.config.storage.files }}
-  storageClassName: standard
+      storage: {{ .request }}
+  storageClassName: {{ .className }}
+  {{- end }}

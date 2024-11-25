@@ -5,7 +5,10 @@ metadata:
 spec:
   accessModes:
     - ReadWriteMany
+  {{- with .Values.config.storage.log }}
   resources:
     requests:
-      storage: {{ .Values.config.storage.log }}
-  storageClassName: standard
+      storage: {{ .request }}
+  storageClassName: {{ .className }}
+  {{- end }}
+
