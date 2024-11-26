@@ -157,6 +157,7 @@ config:
       password: password
       authentication: plain # plain, login, or cram_md5
       enableStartTlsAuto: false
+      debug: false
     domain: example.com
     outgoingAddress: canvas@example.com
     defaultName: Canvas
@@ -201,6 +202,7 @@ configFiles:
       password: <%= ENV.fetch("SMTP_PASSWORD") %>
       authentication: <%= ENV.fetch("SMTP_AUTHENTICATION") %>
       enable_starttls_auto: <%= ENV.fetch("SMTP_ENABLE_STARTTLS_AUTO") %>
+      smtp_debug: <%= ENV.fetch("SMTP_DEBUG") %>
       domain: <%= ENV.fetch("OUTGOING_MAIL_DOMAIN") %>
       outgoing_address: <%= ENV.fetch("OUTGOING_MAIL_OUTGOING_ADDRESS") %>
       default_name: <%= ENV.fetch("OUTGOING_MAIL_DEFAULT_NAME") %>

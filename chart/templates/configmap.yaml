@@ -22,6 +22,7 @@ data:
   SMTP_PASSWORD: {{ .outgoingMail.smtp.password | quote }}
   SMTP_AUTHENTICATION: {{ .outgoingMail.smtp.authentication | quote }}
   SMTP_ENABLE_STARTTLS_AUTO: {{ .outgoingMail.smtp.enableStartTlsAuto | quote }}
+  SMTP_DEBUG: {{ .outgoingMail.smtp.debug | quote }}
   OUTGOING_MAIL_DOMAIN: {{ .outgoingMail.domain | quote }}
   OUTGOING_MAIL_OUTGOING_ADDRESS: {{ .outgoingMail.outgoingAddress | quote }}
   OUTGOING_MAIL_DEFAULT_NAME: {{ .outgoingMail.defaultName | quote }}
