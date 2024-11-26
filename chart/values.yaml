@@ -181,10 +181,10 @@ configFiles:
   database.yml: |
     production:
       adapter: postgresql
-      host: <%= ENV.fetch("DATABASE_HOST") %>
-      database: <%= ENV.fetch("DATABASE_NAME") %>
-      username: <%= ENV.fetch("DATABASE_USERNAME") %>
-      password: <%= ENV.fetch("DATABASE_PASSWORD") %>
+      host: {{ .Values.config.database.host | quote }}
+      database: {{ .Values.config.database.name | quote }}
+      username: {{ .Values.config.database.username | quote }}
+      password: {{ .Values.config.database.password | quote }}
       prepared_statements: false
   delayed_jobs.yml: |
     default:
@@ -196,19 +196,19 @@ configFiles:
       path_prefix: tmp/files
   outgoing_mail.yml: |
     production:
-      address: <%= ENV.fetch("SMTP_HOST") %>
-      port: <%= ENV.fetch("SMTP_PORT") %>
-      user_name: <%= ENV.fetch("SMTP_USERNAME") %>
-      password: <%= ENV.fetch("SMTP_PASSWORD") %>
-      authentication: <%= ENV.fetch("SMTP_AUTHENTICATION") %>
-      enable_starttls_auto: <%= ENV.fetch("SMTP_ENABLE_STARTTLS_AUTO") %>
-      smtp_debug: <%= ENV.fetch("SMTP_DEBUG") %>
-      domain: <%= ENV.fetch("OUTGOING_MAIL_DOMAIN") %>
-      outgoing_address: <%= ENV.fetch("OUTGOING_MAIL_OUTGOING_ADDRESS") %>
-      default_name: <%= ENV.fetch("OUTGOING_MAIL_DEFAULT_NAME") %>
+      address: {{ .Values.config.outgoingMail.smtp.host | quote }}
+      port: {{ .Values.config.outgoingMail.smtp.port | quote }}
+      user_name: {{ .Values.config.outgoingMail.smtp.username | quote }}
+      password: {{ .Values.config.outgoingMail.smtp.password | quote }}
+      authentication: {{ .Values.config.outgoingMail.smtp.authentication | quote }}
+      enable_starttls_auto: {{ .Values.config.outgoingMail.smtp.enableStartTlsAuto }}
+      smtp_debug: {{ .Values.config.outgoingMail.smtp.debug }}
+      domain: {{ .Values.config.outgoingMail.domain | quote }}
+      outgoing_address: {{ .Values.config.outgoingMail.outgoingAddress | quote }}
+      default_name: {{ .Values.config.outgoingMail.defaultName | quote }}
   redis.yml: |
     production:
-      url: <%= ENV.fetch("REDIS_URL") %>
+      url: {{ .Values.config.redis.url | quote }}
       connect_timeout: 0.5
       circuit_breaker:
         error_threshold: 1
