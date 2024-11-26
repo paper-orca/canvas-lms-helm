@@ -5,22 +5,27 @@ metadata:
 data:
 {{- with .Values.config }}
   RAILS_HOST_WITH_PORT: {{ .host }}
+
   # Setup
   CANVAS_LMS_ACCOUNT_NAME: {{ .setup.accountName }}
   CANVAS_LMS_STATS_COLLECTION: {{ .setup.statsCollection }}
+
   # Database
   DATABASE_HOST: {{ .database.host | quote }}
   DATABASE_NAME: {{ .database.name | quote }}
   DATABASE_USERNAME: {{ .database.username | quote }}
+
   # Outgoing mail
   SMTP_HOST: {{ .outgoingMail.smtp.host | quote }}
   SMTP_PORT: {{ .outgoingMail.smtp.port | quote }}
   SMTP_USERNAME: {{ .outgoingMail.smtp.username | quote }}
   SMTP_PASSWORD: {{ .outgoingMail.smtp.password | quote }}
   SMTP_AUTHENTICATION: {{ .outgoingMail.smtp.authentication | quote }}
+  SMTP_ENABLE_STARTTTLS_AUTO: {{ .outgoingMail.smtp.enableStartTlsAuto | quote }}
   OUTGOING_MAIL_DOMAIN: {{ .outgoingMail.domain | quote }}
   OUTGOING_MAIL_OUTGOING_ADDRESS: {{ .outgoingMail.outgoingAddress | quote }}
   OUTGOING_MAIL_DEFAULT_NAME: {{ .outgoingMail.defaultName | quote }}
+
   # Redis
   REDIS_URL: {{ .redis.url | quote }}
 {{- end }}
