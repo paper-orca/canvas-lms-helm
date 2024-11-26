@@ -200,7 +200,7 @@ configFiles:
       user_name: <%= ENV.fetch("SMTP_USERNAME") %>
       password: <%= ENV.fetch("SMTP_PASSWORD") %>
       authentication: <%= ENV.fetch("SMTP_AUTHENTICATION") %>
-      enable_starttls_auto: <%= ENV.fetch("SMTP_ENABLE_STARTTTLS_AUTO") %>
+      enable_starttls_auto: <%= ENV.fetch("SMTP_ENABLE_STARTTLS_AUTO") %>
       domain: <%= ENV.fetch("OUTGOING_MAIL_DOMAIN") %>
       outgoing_address: <%= ENV.fetch("OUTGOING_MAIL_OUTGOING_ADDRESS") %>
       default_name: <%= ENV.fetch("OUTGOING_MAIL_DEFAULT_NAME") %>
