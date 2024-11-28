@@ -156,7 +156,7 @@ config:
       username: user
       password: password
       authentication: plain # plain, login, or cram_md5
-      enableStartTlsAuto: false
+      enableStarttls: false
       debug: false
     domain: example.com
     outgoingAddress: canvas@example.com
@@ -198,10 +198,11 @@ configFiles:
     production:
       address: {{ .Values.config.outgoingMail.smtp.host | quote }}
       port: {{ .Values.config.outgoingMail.smtp.port | quote }}
+      tls: {{ .Values.config.outgoingMail.smtp.tls }}
+      enable_starttls: {{ .Values.config.outgoingMail.smtp.enableStarttls }}
       user_name: {{ .Values.config.outgoingMail.smtp.username | quote }}
       password: {{ .Values.config.outgoingMail.smtp.password | quote }}
       authentication: {{ .Values.config.outgoingMail.smtp.authentication | quote }}
-      enable_starttls_auto: {{ .Values.config.outgoingMail.smtp.enableStartTlsAuto }}
       smtp_debug: {{ .Values.config.outgoingMail.smtp.debug }}
       domain: {{ .Values.config.outgoingMail.domain | quote }}
       outgoing_address: {{ .Values.config.outgoingMail.outgoingAddress | quote }}
