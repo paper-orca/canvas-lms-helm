@@ -32,9 +32,22 @@ docker_build(
     ignore=["./canvas-lms/config"],
 )
 
+watch_file("./dev-overrides")
+
+docker_build(
+    ref="instructure/canvas-rce-api",
+    dockerfile="./canvas-rce-api/Dockerfile",
+    context="./canvas-rce-api",
+)
+
 k8s_yaml(yaml)
 
 k8s_resource(
     workload="canvas-lms",
-    port_forwards="3000:80"
+    port_forwards="canvas-lms.local:3000:80"
+)
+
+k8s_resource(
+    workload="canvas-lms-rce",
+    port_forwards="canvas-lms-rce.local:3001:80"
 )

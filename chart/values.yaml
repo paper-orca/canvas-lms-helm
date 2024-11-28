@@ -105,19 +105,44 @@ affinity: {}
 
 # Dependency config
 postgresql:
-  fullnameOverride: postgresql
   enabled: true
+  fullnameOverride: postgresql
   auth:
     postgresPassword: password
 
 redis:
-  fullnameOverride: redis
   enabled: true
+  fullnameOverride: redis
   architecture: standalone
   auth:
     enabled: false
   replica:
     replicaCount: 1
+  url: redis://redis-master
+
+rce:
+  enabled: true
+  image:
+    repository: instructure/canvas-rce-api
+    pullPolicy: IfNotPresent
+    tag: latest
+  host: canvas-lms-rce.local:3001
+  port: 80
+  httpProtocolOverride: "" # empty, "http", or "https"
+  ecosystem:
+    key: astringthatisactually32byteslong
+    secret: astringthatisactually32byteslong
+  statsd:
+    host: 127.0.0.1
+    port: 8125
+  livenessProbe:
+    httpGet:
+      path: /
+      port: http
+  readinessProbe:
+    httpGet:
+      path: /
+      port: http
 
 # Init containers
 initContainers:
@@ -135,7 +160,7 @@ initContainers:
 # App config
 config:
   init: true
-  host: localhost:3000
+  host: canvas-lms.local:3000
   security:
     encryptionKey: sample-encryption-key
   setup:
@@ -161,8 +186,6 @@ config:
     domain: example.com
     outgoingAddress: canvas@example.com
     defaultName: Canvas
-  redis:
-    url: redis://redis-master
   storage:
     files:
       request: 5Gi
@@ -186,6 +209,23 @@ configFiles:
       username: {{ .Values.config.database.username | quote }}
       password: {{ .Values.config.database.password | quote }}
       prepared_statements: false
+  dynamic_settings.yml: |
+    {{- if .Values.rce.enabled }}
+    production:
+      config:
+        canvas:
+          rich-content-service:
+            app-host: {{ .Values.rce.host | quote }}
+    {{- end }}
+  vault_contents.yml: |
+    {{- if .Values.rce.enabled }}
+    production:
+      "app-canvas/data/secrets":
+        data:
+          canvas_security:
+            encryption_secret: {{ .Values.rce.ecosystem.key }}
+            signing_secret: {{ .Values.rce.ecosystem.secret }}
+    {{- end }}
   delayed_jobs.yml: |
     default:
       workers:
@@ -209,7 +249,7 @@ configFiles:
       default_name: {{ .Values.config.outgoingMail.defaultName | quote }}
   redis.yml: |
     production:
-      url: {{ .Values.config.redis.url | quote }}
+      url: {{ .Values.redis.url | quote }}
       connect_timeout: 0.5
       circuit_breaker:
         error_threshold: 1

@@ -1,0 +1,78 @@
+{{- if .Values.rce.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: '{{ printf "%s-rce" (include "chart.fullname" .) }}'
+  labels:
+    helm.sh/chart: {{ include "chart.chart" . }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/name: '{{ printf "%s-rce" (include "chart.name" .) }}'
+    app.kubernetes.io/instance: {{ .Release.Name }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: '{{ printf "%s-rce" (include "chart.name" .) }}'
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        helm.sh/chart: {{ include "chart.chart" . }}
+        app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+        app.kubernetes.io/managed-by: {{ .Release.Service }}
+        app.kubernetes.io/name: '{{ printf "%s-rce" (include "chart.name" .) }}'
+        app.kubernetes.io/instance: {{ .Release.Name }}
+        {{- with .Values.podLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "chart.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: rce
+          image: "{{ .Values.rce.image.repository }}:{{ .Values.rce.image.tag }}"
+          imagePullPolicy: {{ .Values.rce.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.rce.port }}
+              protocol: TCP
+          env:
+            - name: ECOSYSTEM_KEY
+              value: {{ .Values.rce.ecosystem.key }}
+            - name: ECOSYSTEM_SECRET
+              value: {{ .Values.rce.ecosystem.secret }}
+            - name: STATSD_HOST
+              value: {{ .Values.rce.statsd.host }}
+            - name: STATSD_PORT
+              value: {{ .Values.rce.statsd.port | quote }}
+            - name: HTTP_PROTOCOL_OVERRIDE
+              value: {{ .Values.rce.httpProtocolOverride | quote }}
+          livenessProbe:
+            {{- toYaml .Values.rce.livenessProbe | nindent 12 }}
+          readinessProbe:
+            {{- toYaml .Values.rce.readinessProbe | nindent 12 }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+{{- end }}

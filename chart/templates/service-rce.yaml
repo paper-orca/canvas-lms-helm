@@ -1,0 +1,21 @@
+{{- if .Values.rce.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: '{{ printf "%s-rce" (include "chart.fullname" .) }}'
+  labels:
+    helm.sh/chart: {{ include "chart.chart" . }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/name: '{{ printf "%s-rce" (include "chart.name" .) }}'
+    app.kubernetes.io/instance: {{ .Release.Name }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.rce.port }}
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    {{- include "chart.selectorLabels" . | nindent 4 }}
+{{- end }}
