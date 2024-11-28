@@ -7,6 +7,9 @@ function buildUrl(domain, path) {
   } else if (process.env.NODE_ENV === "production") {
     protocol = "https";
   }
+  if (process.env.DOMAIN_OVERRIDE) {
+    domain = process.env.DOMAIN_OVERRIDE;
+  }
   return protocol + "://" + domain + (path || "");
 }
 

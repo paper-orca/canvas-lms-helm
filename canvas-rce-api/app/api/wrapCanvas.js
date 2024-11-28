@@ -18,6 +18,14 @@ function defaultTransformBody(body) {
   return body;
 }
 
+// convert URL in response from absolute to relative
+function convertResponseUrlsToRelative(canvasResponse) {
+  const domainOverride = process.env.DOMAIN_OVERRIDE;
+  if (domainOverride && canvasResponse.body) {
+    canvasResponse.body = JSON.parse(JSON.stringify(canvasResponse.body).replaceAll(new RegExp(`https?://${domainOverride}`, "g"), ""));
+  }
+}
+
 // uses wrapper to determine canvas request to make, makes the request (with
 // appropriate jwt wrapping, request ID forwarding, etc.), and then hands the
 // response back to the wrapper. in the case of a token error, hands that to
@@ -37,6 +45,7 @@ function canvasApiCall(wrapper, request, response, options) {
   }
   if (options.method == "GET") {
     canvasProxy.fetch(url, request, wrappedTokenString).then(canvasResponse => {
+      convertResponseUrlsToRelative(canvasResponse);
       canvasResponseHandler(request, response, canvasResponse);
     });
   } else if (options.method == "POST" || options.method === "PUT") {
@@ -44,6 +53,7 @@ function canvasApiCall(wrapper, request, response, options) {
     canvasProxy
       .send(options.method, url, request, wrappedTokenString, transformedBody)
       .then(canvasResponse => {
+        convertResponseUrlsToRelative(canvasResponse);
         canvasResponseHandler(request, response, canvasResponse);
       });
   } else {

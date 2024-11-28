@@ -126,9 +126,10 @@ rce:
     repository: instructure/canvas-rce-api
     pullPolicy: IfNotPresent
     tag: latest
-  host: canvas-lms-rce.local:3001
+  host: localhost:3001
   port: 80
   httpProtocolOverride: "" # empty, "http", or "https"
+  domainOverride: ""
   ecosystem:
     key: astringthatisactually32byteslong
     secret: astringthatisactually32byteslong

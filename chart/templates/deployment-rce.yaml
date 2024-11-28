@@ -59,6 +59,8 @@ spec:
               value: {{ .Values.rce.statsd.port | quote }}
             - name: HTTP_PROTOCOL_OVERRIDE
               value: {{ .Values.rce.httpProtocolOverride | quote }}
+            - name: DOMAIN_OVERRIDE
+              value: {{ .Values.rce.domainOverride | quote }}
           livenessProbe:
             {{- toYaml .Values.rce.livenessProbe | nindent 12 }}
           readinessProbe:
