@@ -4,14 +4,11 @@ kind: Deployment
 metadata:
   name: '{{ printf "%s-rce" (include "chart.fullname" .) }}'
   labels:
-    helm.sh/chart: {{ include "chart.chart" . }}
-    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
-    app.kubernetes.io/managed-by: {{ .Release.Service }}
-    app.kubernetes.io/name: '{{ printf "%s-rce" (include "chart.name" .) }}'
-    app.kubernetes.io/instance: {{ .Release.Name }}
+    {{- include "chart.labels" . | nindent 4 }}
+    app.kubernetes.io/component: rce
 spec:
   {{- if not .Values.autoscaling.enabled }}
-  replicas: {{ .Values.replicaCount }}
+  replicas: {{ .Values.rce.replicaCount | default .Values.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
@@ -24,9 +21,6 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        helm.sh/chart: {{ include "chart.chart" . }}
-        app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
-        app.kubernetes.io/managed-by: {{ .Release.Service }}
         app.kubernetes.io/name: '{{ printf "%s-rce" (include "chart.name" .) }}'
         app.kubernetes.io/instance: {{ .Release.Name }}
         {{- with .Values.podLabels }}
@@ -50,9 +44,9 @@ spec:
               protocol: TCP
           env:
             - name: ECOSYSTEM_KEY
-              value: {{ .Values.rce.ecosystem.key }}
+              value: {{ .Values.config.security.ecosystem.key }}
             - name: ECOSYSTEM_SECRET
-              value: {{ .Values.rce.ecosystem.secret }}
+              value: {{ .Values.config.security.ecosystem.secret }}
             - name: STATSD_HOST
               value: {{ .Values.rce.statsd.host }}
             - name: STATSD_PORT
@@ -61,10 +55,18 @@ spec:
               value: {{ .Values.rce.httpProtocolOverride | quote }}
             - name: DOMAIN_OVERRIDE
               value: {{ .Values.rce.domainOverride | quote }}
+          {{- with .Values.rce.resources }}
+          resources:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.rce.livenessProbe }}
           livenessProbe:
-            {{- toYaml .Values.rce.livenessProbe | nindent 12 }}
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.rce.readinessProbe }}
           readinessProbe:
-            {{- toYaml .Values.rce.readinessProbe | nindent 12 }}
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

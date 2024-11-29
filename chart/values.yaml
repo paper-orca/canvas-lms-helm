@@ -122,20 +122,13 @@ redis:
 
 rce:
   enabled: true
+  replicaCount: 1
+  port: 80
+  service:
+    type: ClusterIP
   image:
     repository: instructure/canvas-rce-api
-    pullPolicy: IfNotPresent
     tag: latest
-  host: localhost:3001
-  port: 80
-  httpProtocolOverride: "" # empty, "http", or "https"
-  domainOverride: ""
-  ecosystem:
-    key: astringthatisactually32byteslong
-    secret: astringthatisactually32byteslong
-  statsd:
-    host: 127.0.0.1
-    port: 8125
   livenessProbe:
     httpGet:
       path: /
@@ -144,6 +137,12 @@ rce:
     httpGet:
       path: /
       port: http
+  host: localhost:3001
+  httpProtocolOverride: "" # empty, "http", or "https"
+  domainOverride: ""
+  statsd:
+    host: 127.0.0.1
+    port: 8125
 
 # Init containers
 initContainers:
@@ -164,6 +163,9 @@ config:
   host: canvas-lms.local:3000
   security:
     encryptionKey: sample-encryption-key
+    ecosystem:
+      key: astringthatisactually32byteslong
+      secret: astringthatisactually32byteslong
   setup:
     admin:
       email: me@example.com
@@ -224,8 +226,8 @@ configFiles:
       "app-canvas/data/secrets":
         data:
           canvas_security:
-            encryption_secret: {{ .Values.rce.ecosystem.key }}
-            signing_secret: {{ .Values.rce.ecosystem.secret }}
+            encryption_secret: {{ .Values.config.security.ecosystem.key }}
+            signing_secret: {{ .Values.config.security.ecosystem.secret }}
     {{- end }}
   delayed_jobs.yml: |
     default:
