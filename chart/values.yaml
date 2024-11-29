@@ -127,7 +127,7 @@ rce:
   service:
     type: ClusterIP
   image:
-    repository: instructure/canvas-rce-api
+    repository: ulevitsky/canvas-rce-api
     tag: latest
   livenessProbe:
     httpGet:

@@ -35,7 +35,7 @@ docker_build(
 watch_file("./dev-overrides")
 
 docker_build(
-    ref="instructure/canvas-rce-api",
+    ref="ulevitsky/canvas-rce-api",
     dockerfile="./canvas-rce-api/Dockerfile",
     context="./canvas-rce-api",
 )
