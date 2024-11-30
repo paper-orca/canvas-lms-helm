@@ -44,10 +44,15 @@ k8s_yaml(yaml)
 
 k8s_resource(
     workload="canvas-lms",
-    port_forwards="3000:80"
+    port_forwards="3000:80",
 )
 
 k8s_resource(
     workload="canvas-lms-rce",
-    port_forwards="3001:80"
+    port_forwards="3001:80",
+)
+
+k8s_resource(
+    workload="postgresql",
+    port_forwards="3002:5432",
 )

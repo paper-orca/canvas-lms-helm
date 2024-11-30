@@ -138,24 +138,24 @@ rce:
       path: /
       port: http
   host: localhost:3001
-  httpProtocolOverride: "" # empty, "http", or "https"
-  domainOverride: ""
+  httpProtocolOverride: http # "", "http", or "https"
+  domainOverride: canvas-lms
   statsd:
     host: 127.0.0.1
     port: 8125
 
 # Init containers
 initContainers:
-  init-db:
+  init-data:
     command:
-    - "bin/rails"
-    - "db:create"
-    - "db:migrate"
-  init-setup:
-    command:
-    - "bin/rails"
-    - "db:initial_setup"
-    - "brand_configs:generate_and_upload_all"
+    - bundle
+    - exec
+    - rake
+    - db:create
+    - db:migrate
+    - db:configure_default_settings 
+    - db:load_initial_data
+    - brand_configs:generate_and_upload_all
 
 # App config
 config:
