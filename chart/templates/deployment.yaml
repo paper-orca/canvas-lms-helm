@@ -49,6 +49,23 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       initContainers:
+        - name: volume-permissions
+          image: busybox
+          command: ["sh", "-c"]
+          args:
+            - |
+              chown -R 9999:9999 /usr/src/app/log
+              chown -R 9999:9999 /usr/src/app/tmp/files
+              chown -R 9999:9999 /usr/src/app/tmp/brandable_css
+          securityContext:
+            runAsUser: 0
+          volumeMounts:
+            - name: log
+              mountPath: /usr/src/app/log
+            - name: files
+              mountPath: /usr/src/app/tmp/files
+            - name: brandablecss
+              mountPath: /usr/src/app/tmp/brandable_css
         - name: copy-configs
           {{ include "canvas.container.image" . | nindent 10 }}
           command:

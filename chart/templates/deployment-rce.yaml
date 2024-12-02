@@ -33,7 +33,7 @@ spec:
       {{- end }}
       serviceAccountName: {{ include "chart.serviceAccountName" . }}
       securityContext:
-        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+        {{- toYaml .Values.rce.securityContext | nindent 8 }}
       containers:
         - name: rce
           image: "{{ .Values.rce.image.repository }}:{{ .Values.rce.image.tag }}"

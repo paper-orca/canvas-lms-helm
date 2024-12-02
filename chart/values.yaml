@@ -31,10 +31,15 @@ podAnnotations: {}
 # For more information checkout: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/
 podLabels: {}
 
-podSecurityContext: {}
-  # fsGroup: 2000
+podSecurityContext:
+  fsGroup: 9999
+  runAsUser: 9999
+  runAsGroup: 9999
 
-securityContext: {}
+securityContext:
+  runAsUser: 9999
+  runAsGroup: 9999
+  fsGroup: 9999
   # allowPrivilegeEscalation: true
   # capabilities:
   #   drop:
@@ -129,6 +134,7 @@ rce:
   image:
     repository: ulevitsky/canvas-rce-api
     tag: latest
+  securityContext: {}
   livenessProbe:
     httpGet:
       path: /
