@@ -6,7 +6,7 @@ imagePullPolicy: {{ .Values.image.pullPolicy }}
 {{- define "canvas.container.common" -}}
 {{ include "canvas.container.image" . }}
 securityContext:
-  {{- toYaml .Values.securityContext | nindent 2 }}
+  {{- toYaml .Values.podSecurityContext | nindent 2 }}
 resources:
   {{- toYaml .Values.resources | nindent 2 }}
 volumeMounts:
