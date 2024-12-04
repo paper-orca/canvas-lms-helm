@@ -164,7 +164,7 @@ initContainers:
 # App config
 config:
   init: true
-  host: canvas-lms.local:3000
+  host: localhost:3000
   security:
     encryptionKey: sample-encryption-key
     ecosystem:
