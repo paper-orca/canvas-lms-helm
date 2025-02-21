@@ -3,9 +3,9 @@ kind: PersistentVolumeClaim
 metadata:
   name: {{ .Chart.Name }}-brandablecss
 spec:
-  accessModes:
-    - ReadWriteMany
   {{- with .Values.config.storage.brandableCss }}
+  accessModes:
+    - {{ .accessMode }}
   resources:
     requests:
       storage: {{ .request }}

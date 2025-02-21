@@ -49,9 +49,10 @@ securityContext:
 # This is for setting up a service more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/
 service:
   # This sets the service type more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types
-  type: ClusterIP
+  type: ClusterIP # NodePort
   # This sets the ports more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/#field-spec-ports
   port: 80
+  # nodePort: 30080
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
@@ -128,7 +129,8 @@ rce:
   replicaCount: 1
   port: 80
   service:
-    type: ClusterIP
+    type: ClusterIP # NodePort
+    # nodePort: 30081
   image:
     repository: ulevitsky/canvas-rce-api
     tag: latest
@@ -165,6 +167,7 @@ initContainers:
 config:
   init: true
   host: localhost:3000
+  filesHost: localhost:3000
   security:
     encryptionKey: sample-encryption-key
     ecosystem:
@@ -197,14 +200,21 @@ config:
     files:
       request: 5Gi
       className: standard
+      accessMode: ReadWriteMany
     log:
       request: 1Gi
       className: standard
+      accessMode: ReadWriteMany
     brandableCss:
       request: 50Mi
       className: standard
+      accessMode: ReadWriteMany
 
 configFiles:
+  domain.yml: |
+    production:
+      domain: {{ .Values.config.host | quote }}
+      files_domain: {{ .Values.config.filesHost | quote }}
   cache_store.yml: |
     production:
       cache_store: redis_cache_store
