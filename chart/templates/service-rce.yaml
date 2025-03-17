@@ -10,6 +10,7 @@ spec:
   type: {{ .Values.rce.service.type | default .Values.service.type }}
   ports:
     - port: {{ .Values.rce.port }}
+      nodePort: {{ (.Values.rce.service.nodePort) }}
       targetPort: http
       protocol: TCP
       name: http
