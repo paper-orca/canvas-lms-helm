@@ -3,9 +3,9 @@ kind: PersistentVolumeClaim
 metadata:
   name: {{ .Chart.Name }}-files
 spec:
-  accessModes:
-    - ReadWriteMany
   {{- with .Values.config.storage.files }}
+  accessModes:
+    - {{ .accessMode }}
   resources:
     requests:
       storage: {{ .request }}
