@@ -22,4 +22,4 @@
 *.tmproj
 .vscode/
 # Project-specific files
-values.override.yaml
+values.override*.yaml
