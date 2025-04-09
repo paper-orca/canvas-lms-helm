@@ -61,3 +61,13 @@ Create file `values.override.yaml`. It can be left empty.
 2. Open [http://localhost:10350/](http://localhost:10350/) in your browser and watch the status of the build/rollout. Note that the initial build of Canvas LMS image can take quite a while.
 3. Once everything turned green, you can access Canvas at [http://localhost:3000/](http://localhost:3000/).
 4. Look up log in credentials in your `values.yaml`.
+
+# Build
+
+## Canvas LMS
+
+To rebuild and push image from latest Canvas LMS source, run:
+
+```bash
+./scripts/build-push-image-lms.sh
+```
