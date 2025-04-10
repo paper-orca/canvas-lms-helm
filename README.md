@@ -65,8 +65,17 @@ Create file `values.override.yaml`. It can be left empty.
 # Build
 
 ## Canvas LMS
+To pull the latest Canvas LMS code, run:
 
-To rebuild and push image from latest Canvas LMS source, run:
+```bash
+cd canvas-lms
+git fetch
+git checkout release/<latest-tag>
+cd -
+git submodule update --init --recursive
+```
+
+To build and push image from latest Canvas LMS source, run:
 
 ```bash
 ./scripts/build-push-image-lms.sh
