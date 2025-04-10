@@ -1,3 +1,4 @@
+allow_k8s_contexts(k8s_context())
 analytics_settings(enable=False)
 
 def create_namespace_if_not_exists(namespace):
