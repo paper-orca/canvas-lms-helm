@@ -121,6 +121,10 @@ spec:
         - name: {{ $name }}
           {{ include "canvas.container.image" $ | nindent 10 }}
           command: {{ $container.command | toYaml | nindent 12 }}
+          securityContext:
+            {{- toYaml $container.securityContext | nindent 12 }}
+          resources:
+            {{- toYaml $container.resources | nindent 12 }}
           volumeMounts:
             - name: config
               mountPath: /usr/src/app/config
@@ -146,10 +150,16 @@ spec:
             {{- toYaml .Values.livenessProbe | nindent 12 }}
           readinessProbe:
             {{- toYaml .Values.readinessProbe | nindent 12 }}
+          securityContext:
+            {{- toYaml .Values.web.securityContext | nindent 12 }}
           resources:
-            {{- toYaml .Values.resources | nindent 12 }}
+            {{- toYaml .Values.web.resources | nindent 12 }}
         - name: job
           {{ include "canvas.container.common" . | nindent 10 }}
+          securityContext:
+            {{- toYaml .Values.job.securityContext | nindent 12 }}
+          resources:
+            {{- toYaml .Values.job.resources | nindent 12 }}
           command:
             - bundle
             - exec
