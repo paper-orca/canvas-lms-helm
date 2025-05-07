@@ -184,15 +184,15 @@ config:
     files:
       request: 5Gi
       className: standard
-      accessMode: ReadWriteMany
+      accessMode: ReadWriteOnce
     log:
       request: 1Gi
       className: standard
-      accessMode: ReadWriteMany
+      accessMode: ReadWriteOnce
     brandableCss:
       request: 50Mi
       className: standard
-      accessMode: ReadWriteMany
+      accessMode: ReadWriteOnce
 
 configFiles:
   domain.yml: |
