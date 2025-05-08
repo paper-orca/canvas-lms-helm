@@ -86,8 +86,6 @@ affinity: {}
 postgresql:
   enabled: true
   fullnameOverride: postgresql
-  auth:
-    postgresPassword: password
 
 redis:
   enabled: true
@@ -125,9 +123,7 @@ rce:
     httpGet:
       path: /
       port: http
-  host: localhost:3001
-  httpProtocolOverride: http # "", "http", or "https"
-  domainOverride: canvas-lms
+  host: canvas-lms-rce:80
   statsd:
     host: 127.0.0.1
     port: 8125
@@ -152,46 +148,35 @@ config:
   init: true
   host: localhost:3000
   filesHost: localhost:3000
-  security:
-    encryptionKey: sample-encryption-key
-    ecosystem:
-      key: astringthatisactually32byteslong
-      secret: astringthatisactually32byteslong
   setup:
     admin:
-      email: me@example.com
-      password: password
-    accountName: Acme Corp.
+      email: flapjack@paperorca.com
+    accountName: Paper Orca Co.
     statsCollection: opt_out
   database:
     host: postgresql
     name: canvas
-    username: postgres
-    password: password
   outgoingMail:
     smtp:
-      host: smtp.example.com
-      port: 25
-      username: user
-      password: password
-      authentication: plain # plain, login, or cram_md5
-      enableStarttls: false
+      host: smtp.sendgrid.net
+      port: 587
+      enableStarttls: true
       debug: false
-    domain: example.com
-    outgoingAddress: canvas@example.com
-    defaultName: Canvas
+    domain: orcapost.com
+    outgoingAddress: demo@orcapost.com
+    defaultName: demo
   storage:
     files:
       request: 5Gi
-      className: standard
+      className: standard-rwo
       accessMode: ReadWriteOnce
     log:
       request: 1Gi
-      className: standard
+      className: standard-rwo
       accessMode: ReadWriteOnce
     brandableCss:
       request: 50Mi
-      className: standard
+      className: standard-rwo
       accessMode: ReadWriteOnce
 
 configFiles:

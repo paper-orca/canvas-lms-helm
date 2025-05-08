@@ -1,5 +1,12 @@
 # Canvas LMS Helm chart
 
+Refer back to the parent repo: https://github.com/ulevitsky/canvas-lms-helm
+
+```sh
+kubectl exec -it postgresql-0 -n canvas -- psql -U postgres -d canvas 
+```
+
+
 ❗ Please note that I make no claims about production-readiness of this; use at your own risk.
 
 ❕ **Trademarks**: all trademarks are owned by the respective companies, and the use of them does not imply any affiliation or endorsement.
@@ -13,8 +20,7 @@ This project was inspired by [this repo](https://github.com/instructure/canvas-s
 With your target cluster and namespace as your current context, run:
 
 ```bash
-helm upgrade -i canvas oci://registry-1.docker.io/ulevitsky/canvas-lms
-kubectl port-forward svc/canvas-lms 3000:80
+helm -n canvas upgrade -i canvas . -f ./values.override.yaml
 ```
 
 then try accessing `http://localhost:3000` in your browser. Please be patient because it might take Canvas a while to pull images, initialise, and start.
@@ -23,15 +29,10 @@ Once it's up and running and the log in page is showing, log in as `me@example.c
 
 # Deployment
 
-For real-life use, the process is similar to what's described in [Quickstart](#quickstart), only you will probably want to override some default values.
-
-For a complete list of values, run
-
 ```bash
-helm show values oci://registry-1.docker.io/ulevitsky/canvas-lms
+cd chart
+helm -n canvas upgrade -i canvas . 
 ```
-
-If your installation is to be internet-facing, you will also need to BYO ingress and configure TLS.
 
 # Local development
 

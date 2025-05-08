@@ -5,6 +5,8 @@ metadata:
 data:
 {{- with .Values.config }}
   RAILS_HOST_WITH_PORT: {{ .host }}
+  RAILS_LOG_TO_STDOUT: "true"
+  RAILS_LOG_LEVEL: debug
   CANVAS_LMS_ACCOUNT_NAME: {{ .setup.accountName }}
   CANVAS_LMS_STATS_COLLECTION: {{ .setup.statsCollection }}
 {{- end }}

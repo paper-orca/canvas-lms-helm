@@ -47,14 +47,12 @@ spec:
               value: {{ .Values.config.security.ecosystem.key }}
             - name: ECOSYSTEM_SECRET
               value: {{ .Values.config.security.ecosystem.secret }}
+            - name: PORT
+              value: "80"
             - name: STATSD_HOST
               value: {{ .Values.rce.statsd.host }}
             - name: STATSD_PORT
               value: {{ .Values.rce.statsd.port | quote }}
-            - name: HTTP_PROTOCOL_OVERRIDE
-              value: {{ .Values.rce.httpProtocolOverride | quote }}
-            - name: DOMAIN_OVERRIDE
-              value: {{ .Values.rce.domainOverride | quote }}
           {{- with .Values.rce.resources }}
           resources:
             {{- toYaml . | nindent 12 }}
